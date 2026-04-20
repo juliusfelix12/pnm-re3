@@ -1,3 +1,6 @@
 node_modules/
 database.db
 .env
+brand_assets/
+public/uploads/
+data.json
