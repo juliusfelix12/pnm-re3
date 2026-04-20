@@ -158,6 +158,18 @@ app.get('/api/donations', requireAuth, (req, res) => {
   res.json({ donations, total });
 });
 
+app.get('/api/health', (req, res) => {
+  const data = readData();
+  res.json({
+    status: 'ok',
+    data_dir: DATA_DIR,
+    data_file: DATA_FILE,
+    persistent: DATA_DIR !== __dirname,
+    branches: data.branches.length,
+    donations: data.donations.length
+  });
+});
+
 app.get('/api/leaderboard', (req, res) => {
   const data = readData();
   const totals = data.branches.map(b => ({
