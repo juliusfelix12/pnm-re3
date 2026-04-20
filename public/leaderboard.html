@@ -29,8 +29,7 @@
 
     /* ── HEADER ── */
     .header {
-      background: white;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      background: transparent;
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 40px;
       flex-shrink: 0;
@@ -150,8 +149,11 @@
       grid-auto-flow: column;
       grid-auto-columns: 1fr;
       gap: 7px;
-      overflow: hidden;
+      overflow-y: auto;
     }
+    .rank-table-wrap::-webkit-scrollbar { width: 4px; }
+    .rank-table-wrap::-webkit-scrollbar-track { background: transparent; }
+    .rank-table-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
 
     .rank-row {
       background: white;
