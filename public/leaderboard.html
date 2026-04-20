@@ -146,10 +146,11 @@
     .rank-table-wrap {
       flex: 1; min-height: 0;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(12, auto);
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
       gap: 7px;
       overflow: hidden;
-      align-content: start;
     }
 
     .rank-row {
