@@ -158,6 +158,18 @@ app.get('/api/donations', requireAuth, (req, res) => {
   res.json({ donations, total });
 });
 
+app.post('/api/admin/reset', (req, res) => {
+  const { secret } = req.body || {};
+  if (secret !== (process.env.ADMIN_SECRET || 're3admin2025')) {
+    return res.status(403).json({ error: 'Akses ditolak.' });
+  }
+  const data = readData();
+  const count = data.donations.length;
+  data.donations = [];
+  writeData(data);
+  res.json({ success: true, deleted: count });
+});
+
 app.get('/api/health', (req, res) => {
   const data = readData();
   res.json({
