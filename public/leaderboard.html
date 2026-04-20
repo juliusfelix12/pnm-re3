@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>RE3 – Leaderboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(160deg, #7ec8e3 0%, #a8d9f0 25%, #c8eaf8 55%, #dff3ff 100%);
+      position: relative;
+    }
+
+    /* Cloud blobs */
+    .cloud { position: fixed; border-radius: 50%; background: rgba(255,255,255,0.45); filter: blur(70px); pointer-events: none; }
+    .cloud-1 { width: 700px; height: 320px; top: -120px; left: -120px; }
+    .cloud-2 { width: 500px; height: 240px; top: 60px; right: -80px; }
+    .cloud-3 { width: 400px; height: 180px; bottom: 80px; left: 30%; }
+
+    .page {
+      position: relative; z-index: 1;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 40px;
+      flex-shrink: 0;
+      height: 90px;
+    }
+    .header-logo { display: flex; align-items: center; }
+    .header-logo img { height: 58px; object-fit: contain; }
+    .header-center {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .header-center img { height: 72px; object-fit: contain; }
+
+    /* ── TITLE BLOCK ── */
+    .title-block {
+      padding: 18px 40px 8px;
+      flex-shrink: 0;
+    }
+    .title-block h1 {
+      font-size: clamp(20px, 2.2vw, 32px);
+      font-weight: 900; color: #1a3a6b; line-height: 1.1;
+    }
+    .title-block .subtitle {
+      font-size: clamp(12px, 1.1vw, 16px);
+      color: #5a7a9a; margin-top: 4px;
+    }
+    .title-block .update-time {
+      font-size: clamp(11px, 0.9vw, 14px);
+      color: #8aaBc8; margin-top: 2px;
+    }
+
+    /* ── BODY ── */
+    .body {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+      padding: 0 40px 20px; gap: 16px;
+    }
+
+    /* ── PODIUM ── */
+    .podium-wrap {
+      flex-shrink: 0;
+      display: flex; justify-content: center; align-items: flex-end;
+      gap: 20px;
+      padding: 0 60px;
+      height: clamp(170px, 22vh, 240px);
+    }
+
+    .podium-slot { display: flex; flex-direction: column; align-items: center; }
+    .podium-slot.rank-1 { flex: 0 0 36%; }
+    .podium-slot.rank-2 { flex: 0 0 28%; }
+    .podium-slot.rank-3 { flex: 0 0 28%; }
+
+    .podium-card {
+      width: 100%; border-radius: 18px 18px 0 0;
+      padding: 14px 18px;
+      background: linear-gradient(145deg, #0f2d5a 0%, #1e4d8c 60%, #2460a8 100%);
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 -6px 24px rgba(15,45,90,0.25);
+      position: relative; overflow: hidden;
+    }
+    .podium-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .podium-slot.rank-1 .podium-card { height: clamp(100px, 14vh, 160px); }
+    .podium-slot.rank-2 .podium-card { height: clamp(84px, 11vh, 128px); }
+    .podium-slot.rank-3 .podium-card { height: clamp(72px, 9.5vh, 112px); }
+
+    .podium-slot.rank-1 .podium-card::before { background: #f5c842; }
+    .podium-slot.rank-2 .podium-card::before { background: #9bb8d4; }
+    .podium-slot.rank-3 .podium-card::before { background: #c87941; }
+
+    .podium-medal-wrap {
+      width: clamp(38px, 4vw, 56px); height: clamp(38px, 4vw, 56px);
+      border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(20px, 2.4vw, 32px);
+    }
+    .podium-slot.rank-1 .podium-medal-wrap { background: rgba(245,200,66,0.2); }
+    .podium-slot.rank-2 .podium-medal-wrap { background: rgba(155,184,212,0.2); }
+    .podium-slot.rank-3 .podium-medal-wrap { background: rgba(200,121,65,0.2); }
+
+    .podium-info { flex: 1; min-width: 0; }
+    .podium-name {
+      font-size: clamp(11px, 1.1vw, 16px);
+      font-weight: 800; color: white;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .podium-slot.rank-1 .podium-name { font-size: clamp(13px, 1.4vw, 20px); }
+    .podium-kg-row { display: flex; align-items: baseline; gap: 4px; margin-top: 4px; }
+    .podium-kg {
+      font-size: clamp(18px, 2.4vw, 36px);
+      font-weight: 900; color: white; line-height: 1;
+    }
+    .podium-slot.rank-1 .podium-kg { font-size: clamp(22px, 3vw, 44px); }
+    .podium-kg-unit { font-size: clamp(11px, 1vw, 15px); color: rgba(255,255,255,0.6); font-weight: 500; }
+
+    .podium-base { width: 100%; height: 18px; border-radius: 0 0 8px 8px; }
+    .podium-slot.rank-1 .podium-base { background: #0a1f3d; }
+    .podium-slot.rank-2 .podium-base { background: #7a9ab8; }
+    .podium-slot.rank-3 .podium-base { background: #a0622a; }
+
+    /* Empty podium slot */
+    .podium-empty {
+      width: 100%; border-radius: 18px 18px 0 0;
+      background: rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); font-size: 13px;
+    }
+
+    /* ── RANK TABLE ── */
+    .rank-table-wrap {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      overflow: hidden;
+      align-content: start;
+    }
+
+    .rank-row {
+      background: white;
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+    }
+    .rank-num {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: #eef3f9; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(11px, 0.9vw, 13px); font-weight: 700; color: #4a6a8a;
+    }
+    .rank-name {
+      flex: 1; font-size: clamp(11px, 0.9vw, 13px);
+      font-weight: 600; color: #1a3a6b;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .rank-kg {
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 800; color: #1a3a6b; white-space: nowrap;
+    }
+    .rank-kg span { font-size: 10px; font-weight: 500; color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+
+  <div class="page">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-logo">
+        <img src="assets/logo-danantara.png" alt="Danantara Indonesia">
+      </div>
+      <div class="header-center">
+        <img src="assets/re3-center.png" alt="RE3">
+      </div>
+      <div class="header-logo" style="justify-content:flex-end;">
+        <img src="assets/logo-pnm.png" alt="PNM">
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="title-block">
+      <h1>Data Urutan Penyumbang Sementara</h1>
+      <div class="subtitle">Berdasarkan berat barang (Kg)</div>
+      <div class="update-time" id="update-time">Terakhir update pada —</div>
+    </div>
+
+    <!-- BODY -->
+    <div class="body">
+      <!-- PODIUM -->
+      <div class="podium-wrap" id="podium"></div>
+
+      <!-- RANK TABLE -->
+      <div class="rank-table-wrap" id="rank-table"></div>
+    </div>
+  </div>
+
+<script>
+  const MEDALS = ['🥇','🥈','🥉'];
+
+  function renderPodium(top3) {
+    const el = document.getElementById('podium');
+    // Visual order: rank2(left), rank1(center), rank3(right)
+    const slots = [
+      { data: top3[1], cls: 'rank-2', medal: MEDALS[1] },
+      { data: top3[0], cls: 'rank-1', medal: MEDALS[0] },
+      { data: top3[2], cls: 'rank-3', medal: MEDALS[2] },
+    ];
+
+    el.innerHTML = slots.map(({ data, cls, medal }) => {
+      if (!data) return `<div class="podium-slot ${cls}"><div class="podium-empty podium-card">—</div><div class="podium-base"></div></div>`;
+      return `
+        <div class="podium-slot ${cls}">
+          <div class="podium-card">
+            <div class="podium-medal-wrap">${medal}</div>
+            <div class="podium-info">
+              <div class="podium-name">${esc(data.name)}</div>
+              <div class="podium-kg-row">
+                <span class="podium-kg">${data.total_kg}</span>
+                <span class="podium-kg-unit">KG</span>
+              </div>
+            </div>
+          </div>
+          <div class="podium-base"></div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderTable(rest) {
+    const el = document.getElementById('rank-table');
+    if (!rest.length) { el.innerHTML = ''; return; }
+    el.innerHTML = rest.map((item, i) => `
+      <div class="rank-row">
+        <div class="rank-num">${i + 4}</div>
+        <div class="rank-name" title="${esc(item.name)}">${esc(item.name)}</div>
+        <div class="rank-kg">${item.total_kg} <span>kg</span></div>
+      </div>
+    `).join('');
+  }
+
+  function formatDatetime(d) {
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+
+  async function refresh() {
+    try {
+      const res = await fetch('/api/leaderboard');
+      const data = await res.json();
+      renderPodium(data.slice(0, 3));
+      renderTable(data.slice(3));
+      document.getElementById('update-time').textContent = 'Terakhir update pada ' + formatDatetime(new Date());
+    } catch (e) {
+      console.error('Gagal refresh leaderboard:', e);
+    }
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  refresh();
+  setInterval(refresh, 5000);
+</script>
+</body>
+</html>

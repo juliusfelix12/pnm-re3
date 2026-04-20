@@ -1,0 +1,354 @@
+{
+  "branches": [
+    {
+      "id": 1,
+      "name": "Jakarta Pusat",
+      "username": "cabang01",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 2,
+      "name": "Jakarta Selatan",
+      "username": "cabang02",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 3,
+      "name": "Jakarta Utara",
+      "username": "cabang03",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 4,
+      "name": "Jakarta Barat",
+      "username": "cabang04",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 5,
+      "name": "Jakarta Timur",
+      "username": "cabang05",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 6,
+      "name": "Bogor",
+      "username": "cabang06",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 7,
+      "name": "Depok",
+      "username": "cabang07",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 8,
+      "name": "Tangerang",
+      "username": "cabang08",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 9,
+      "name": "Bekasi",
+      "username": "cabang09",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 10,
+      "name": "Bandung",
+      "username": "cabang10",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 11,
+      "name": "Surabaya",
+      "username": "cabang11",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 12,
+      "name": "Medan",
+      "username": "cabang12",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 13,
+      "name": "Semarang",
+      "username": "cabang13",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 14,
+      "name": "Makassar",
+      "username": "cabang14",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 15,
+      "name": "Palembang",
+      "username": "cabang15",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 16,
+      "name": "Yogyakarta",
+      "username": "cabang16",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 17,
+      "name": "Malang",
+      "username": "cabang17",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 18,
+      "name": "Denpasar",
+      "username": "cabang18",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 19,
+      "name": "Balikpapan",
+      "username": "cabang19",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 20,
+      "name": "Banjarmasin",
+      "username": "cabang20",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 21,
+      "name": "Pontianak",
+      "username": "cabang21",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 22,
+      "name": "Samarinda",
+      "username": "cabang22",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 23,
+      "name": "Manado",
+      "username": "cabang23",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 24,
+      "name": "Pekanbaru",
+      "username": "cabang24",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 25,
+      "name": "Padang",
+      "username": "cabang25",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 26,
+      "name": "Batam",
+      "username": "cabang26",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 27,
+      "name": "Jambi",
+      "username": "cabang27",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 28,
+      "name": "Bengkulu",
+      "username": "cabang28",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 29,
+      "name": "Lampung",
+      "username": "cabang29",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 30,
+      "name": "Serang",
+      "username": "cabang30",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 31,
+      "name": "Karawang",
+      "username": "cabang31",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 32,
+      "name": "Cirebon",
+      "username": "cabang32",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 33,
+      "name": "Solo",
+      "username": "cabang33",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 34,
+      "name": "Magelang",
+      "username": "cabang34",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 35,
+      "name": "Kudus",
+      "username": "cabang35",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 36,
+      "name": "Purwokerto",
+      "username": "cabang36",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 37,
+      "name": "Tasikmalaya",
+      "username": "cabang37",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 38,
+      "name": "Sukabumi",
+      "username": "cabang38",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 39,
+      "name": "Cianjur",
+      "username": "cabang39",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 40,
+      "name": "Madiun",
+      "username": "cabang40",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 41,
+      "name": "Kediri",
+      "username": "cabang41",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 42,
+      "name": "Jember",
+      "username": "cabang42",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 43,
+      "name": "Banyuwangi",
+      "username": "cabang43",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 44,
+      "name": "Mataram",
+      "username": "cabang44",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 45,
+      "name": "Kupang",
+      "username": "cabang45",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 46,
+      "name": "Ambon",
+      "username": "cabang46",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 47,
+      "name": "Jayapura",
+      "username": "cabang47",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 48,
+      "name": "Ternate",
+      "username": "cabang48",
+      "password": "re3pnm2025"
+    },
+    {
+      "id": 49,
+      "name": "Gorontalo",
+      "username": "cabang49",
+      "password": "re3pnm2025"
+    }
+  ],
+  "donations": [
+    {
+      "id": 1776704645356,
+      "branch_id": 1,
+      "donor_name": "Budi Santoso",
+      "kg": 12.5,
+      "donation_date": "2026-04-21",
+      "photo": null,
+      "submitted_at": "2026-04-20T17:04:05.356Z"
+    },
+    {
+      "id": 1776704807124,
+      "branch_id": 1,
+      "donor_name": "julius",
+      "kg": 10,
+      "donation_date": "2026-04-20",
+      "photo": null,
+      "submitted_at": "2026-04-20T17:06:47.124Z"
+    },
+    {
+      "id": 1776704959639,
+      "branch_id": 1,
+      "donor_name": "Test Foto",
+      "kg": 5,
+      "donation_date": "2026-04-21",
+      "photo": "uploads/1776704959637_1.jpg",
+      "submitted_at": "2026-04-20T17:09:19.639Z"
+    },
+    {
+      "id": 1776705148688,
+      "branch_id": 1,
+      "donor_name": "john",
+      "kg": 11,
+      "donation_date": "2026-04-20",
+      "photo": "/uploads/1776705148674_1.png",
+      "submitted_at": "2026-04-20T17:12:28.688Z"
+    },
+    {
+      "id": 1776705176269,
+      "branch_id": 1,
+      "donor_name": "harris",
+      "kg": 15,
+      "donation_date": "2026-04-14",
+      "photo": "/uploads/1776705176266_1.jpeg",
+      "submitted_at": "2026-04-20T17:12:56.269Z"
+    },
+    {
+      "id": 1776705388722,
+      "branch_id": 5,
+      "donor_name": "aliya",
+      "kg": 5,
+      "donation_date": "2026-04-20",
+      "photo": "/uploads/1776705388718_5.png",
+      "submitted_at": "2026-04-20T17:16:28.722Z"
+    }
+  ]
+}

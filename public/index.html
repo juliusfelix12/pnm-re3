@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RE3 – PNM Input Donasi</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100dvh;
+      background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
+    }
+
+    .screen { display: none; width: 100%; min-height: 100dvh; flex-direction: column; }
+    .screen.active { display: flex; }
+
+    /* ── SPLASH ── */
+    #screen-splash { align-items: center; justify-content: flex-end; padding-bottom: 48px; }
+    .splash-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/bg.png');
+      background-size: cover; background-position: center top;
+    }
+    .splash-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 100%);
+    }
+    .splash-content { position: relative; z-index: 2; width: 100%; padding: 0 28px; }
+    .btn-login-splash {
+      width: 100%; padding: 16px;
+      background: #1a3a6b; color: white;
+      font-size: 16px; font-weight: 700;
+      border: none; border-radius: 12px; cursor: pointer;
+      letter-spacing: 1px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .btn-login-splash:active { background: #0f2447; }
+
+    /* ── LOGIN ── */
+    #screen-login { align-items: center; justify-content: flex-start; }
+    .login-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/bg.png');
+      background-size: cover; background-position: center top; filter: brightness(0.6);
+    }
+    .login-card {
+      position: relative; z-index: 2;
+      width: calc(100% - 48px);
+      margin-top: auto; margin-bottom: 40px;
+      background: white; border-radius: 20px;
+      padding: 28px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .login-card h2 { font-size: 20px; color: #1a3a6b; margin-bottom: 4px; font-weight: 800; }
+    .login-card p { font-size: 13px; color: #666; margin-bottom: 20px; }
+
+    /* ── SHARED FORM STYLES ── */
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600; color: #444;
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .form-group input, .form-group select {
+      width: 100%; padding: 12px 14px;
+      border: 2px solid #e0e7ef; border-radius: 10px;
+      font-size: 15px; outline: none; background: #f8fafc;
+      transition: border-color 0.2s; font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: #1a3a6b; background: white; }
+    .error-msg {
+      color: #dc2626; font-size: 13px; margin-bottom: 12px;
+      padding: 8px 12px; background: #fef2f2; border-radius: 8px; display: none;
+    }
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: #1a3a6b; color: white;
+      font-size: 15px; font-weight: 700; border: none;
+      border-radius: 10px; cursor: pointer;
+      transition: background 0.2s, opacity 0.2s; letter-spacing: 0.5px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary:active { background: #0f2447; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── HOME ── */
+    #screen-home { align-items: stretch; }
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 18px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .header img { height: 32px; object-fit: contain; }
+    .home-body { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 24px; }
+    .branch-badge {
+      background: white; border-radius: 14px; padding: 14px 20px;
+      text-align: center; width: 100%; margin-bottom: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .branch-badge .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .branch-badge .name { font-size: 18px; font-weight: 800; color: #1a3a6b; }
+    .home-buttons { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+    .btn-home {
+      width: 100%; padding: 20px 24px; border: none; border-radius: 16px;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: transform 0.1s;
+    }
+    .btn-home:active { transform: scale(0.98); }
+    .btn-home.input { background: #1a3a6b; color: white; }
+    .btn-home.list  { background: white; color: #1a3a6b; border: 2px solid #e0e7ef; }
+    .btn-home .icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+    }
+    .btn-home.input .icon { background: rgba(255,255,255,0.15); }
+    .btn-home.list .icon  { background: #e8f0fb; }
+    .btn-home .btn-text { text-align: left; }
+    .btn-home .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+    .logout-btn { margin-top: auto; padding: 12px; background: transparent; border: none; color: #888; font-size: 13px; cursor: pointer; text-decoration: underline; }
+
+    /* ── INPUT FORM ── */
+    #screen-input { align-items: stretch; }
+    .page-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .back-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #1a3a6b; padding: 4px; }
+    .page-header h2 { font-size: 16px; font-weight: 700; color: #1a3a6b; }
+    .page-body { flex: 1; padding: 20px; overflow-y: auto; }
+    .input-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .input-card h3 {
+      font-size: 14px; font-weight: 700; color: #1a3a6b;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f0f4f8;
+    }
+    .success-msg {
+      display: none; background: #f0fdf4; border: 1px solid #86efac;
+      color: #166534; padding: 10px 14px; border-radius: 10px;
+      font-size: 13px; margin-bottom: 14px;
+    }
+    .kg-input-wrapper { position: relative; }
+    .kg-input-wrapper input { padding-right: 40px; }
+    .kg-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #888; font-weight: 600; }
+
+    /* Photo upload */
+    .photo-upload-area {
+      border: 2px dashed #c8d8e8; border-radius: 10px;
+      padding: 16px; text-align: center; cursor: pointer;
+      background: #f8fafc; transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .photo-upload-area:hover { border-color: #1a3a6b; background: #eef4ff; }
+    .photo-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .photo-upload-area .upload-icon { font-size: 28px; margin-bottom: 6px; }
+    .photo-upload-area .upload-text { font-size: 13px; color: #666; }
+    .photo-upload-area .upload-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .photo-preview { display: none; margin-top: 10px; position: relative; }
+    .photo-preview img { width: 100%; border-radius: 8px; max-height: 200px; object-fit: cover; }
+    .photo-remove {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(0,0,0,0.5); color: white;
+      border: none; border-radius: 50%; width: 24px; height: 24px;
+      font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── LIST DATA ── */
+    #screen-list { align-items: stretch; }
+    .total-bar {
+      background: #1a3a6b; color: white; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .total-bar .label { font-size: 13px; opacity: 0.8; }
+    .total-bar .value { font-size: 20px; font-weight: 800; }
+    .donation-list { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .donation-item {
+      background: white; border-radius: 12px; padding: 14px 16px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .donation-item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .donation-item .donor-name { font-weight: 600; color: #1a3a6b; font-size: 15px; }
+    .donation-item .donor-meta { font-size: 11px; color: #999; margin-top: 2px; }
+    .donation-item .donor-kg { font-size: 18px; font-weight: 800; color: #1a3a6b; white-space: nowrap; }
+    .donation-item .donor-kg span { font-size: 12px; font-weight: 500; color: #888; }
+    .donation-photo { width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover; cursor: pointer; }
+    .empty-state { text-align: center; padding: 48px 20px; color: #aaa; }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── LOADER ── */
+    .loader {
+      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white; border-radius: 50%;
+      animation: spin 0.7s linear infinite; display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SPLASH -->
+  <div class="screen active" id="screen-splash">
+    <div class="splash-bg"></div>
+    <div class="splash-overlay"></div>
+    <div class="splash-content">
+      <button class="btn-login-splash" onclick="showScreen('login')">LOGIN</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="screen" id="screen-login">
+    <div class="login-bg"></div>
+    <div class="login-card">
+      <h2>Masuk ke RE3</h2>
+      <p>Masukkan username dan password yang telah diberikan.</p>
+      <div class="error-msg" id="login-error"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="input-username" placeholder="contoh: cabang01" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" id="btn-submit-login" onclick="doLogin()">
+        <span id="login-text">MASUK</span>
+        <div class="loader" id="login-loader"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="screen-home">
+    <div class="header">
+      <img src="assets/logo-danantara.png" alt="Danantara">
+      <img src="assets/logo-pnm.png" alt="PNM">
+    </div>
+    <div class="home-body">
+      <div class="branch-badge">
+        <div class="label">Kantor Cabang</div>
+        <div class="name" id="branch-name-display">—</div>
+      </div>
+      <div class="home-buttons">
+        <button class="btn-home input" onclick="showScreen('input')">
+          <div class="icon">📦</div>
+          <div class="btn-text">Input Barang<span>Tambah data donasi baju</span></div>
+        </button>
+        <button class="btn-home list" onclick="loadListAndShow()">
+          <div class="icon">📋</div>
+          <div class="btn-text">List Data<span>Lihat semua donasi cabang ini</span></div>
+        </button>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Keluar</button>
+    </div>
+  </div>
+
+  <!-- INPUT BARANG -->
+  <div class="screen" id="screen-input">
+    <div class="page-header">
+      <button class="back-btn" onclick="showScreen('home')">←</button>
+      <h2>Input Barang</h2>
+    </div>
+    <div class="page-body">
+      <div class="input-card">
+        <h3>Data Penyumbang Baru</h3>
+        <div class="success-msg" id="input-success">✓ Data berhasil disimpan!</div>
+        <div class="error-msg" id="input-error"></div>
+
+        <div class="form-group">
+          <label>Nama Penyumbang</label>
+          <input type="text" id="input-donor-name" placeholder="Nama lengkap penyumbang">
+        </div>
+        <div class="form-group">
+          <label>Berat Donasi</label>
+          <div class="kg-input-wrapper">
+            <input type="number" id="input-kg" placeholder="0" min="0.1" step="0.1">
+            <span class="kg-unit">kg</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tanggal Donasi</label>
+          <input type="date" id="input-date">
+        </div>
+        <div class="form-group">
+          <label>Foto Bukti (opsional)</label>
+          <div class="photo-upload-area" id="upload-area">
+            <input type="file" id="input-photo" accept="image/*" onchange="previewPhoto(this)">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">Klik untuk pilih foto</div>
+            <div class="upload-hint">JPG, PNG, WEBP · Maks 10MB</div>
+          </div>
+          <div class="photo-preview" id="photo-preview">
+            <img id="photo-preview-img" src="" alt="Preview">
+            <button class="photo-remove" onclick="removePhoto()">✕</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-submit-donation" onclick="submitDonation()">
+          <span id="donate-text">SIMPAN DATA</span>
+          <div class="loader" id="donate-loader"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST DATA -->
+  <div class="screen" id="screen-list">
+    <div class="page-header">
+      <button class="back-btn" onclick="showScreen('home')">←</button>
+      <h2>List Data Donasi</h2>
+    </div>
+    <div class="total-bar">
+      <div class="label">Total Terkumpul</div>
+      <div class="value"><span id="total-kg">0</span> kg</div>
+    </div>
+    <div class="donation-list" id="donation-list"></div>
+  </div>
+
+</div>
+<script>
+  // Set default date to today
+  document.getElementById('input-date').valueAsDate = new Date();
+
+  document.getElementById('input-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+  }
+
+  function previewPhoto(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('photo-preview-img').src = e.target.result;
+      document.getElementById('photo-preview').style.display = 'block';
+      document.getElementById('upload-area').style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  function removePhoto() {
+    document.getElementById('input-photo').value = '';
+    document.getElementById('photo-preview').style.display = 'none';
+    document.getElementById('upload-area').style.display = 'block';
+  }
+
+  async function doLogin() {
+    const username = document.getElementById('input-username').value.trim();
+    const password = document.getElementById('input-password').value.trim();
+    const errEl = document.getElementById('login-error');
+    const btn = document.getElementById('btn-submit-login');
+
+    errEl.style.display = 'none';
+    if (!username || !password) { showErr(errEl, 'Username dan password harus diisi.'); return; }
+
+    setLoading(btn, 'login-text', 'login-loader', true);
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      document.getElementById('branch-name-display').textContent = data.branchName;
+      showScreen('home');
+    } catch (err) {
+      showErr(errEl, err.message);
+    } finally {
+      setLoading(btn, 'login-text', 'login-loader', false);
+    }
+  }
+
+  async function submitDonation() {
+    const donor_name = document.getElementById('input-donor-name').value.trim();
+    const kg = document.getElementById('input-kg').value;
+    const donation_date = document.getElementById('input-date').value;
+    const photoFile = document.getElementById('input-photo').files[0];
+    const errEl = document.getElementById('input-error');
+    const sucEl = document.getElementById('input-success');
+    const btn = document.getElementById('btn-submit-donation');
+
+    errEl.style.display = 'none';
+    sucEl.style.display = 'none';
+
+    if (!donor_name || !kg || !donation_date) {
+      showErr(errEl, 'Nama penyumbang, berat, dan tanggal harus diisi.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('donor_name', donor_name);
+    formData.append('kg', kg);
+    formData.append('donation_date', donation_date);
+    if (photoFile) formData.append('photo', photoFile);
+
+    setLoading(btn, 'donate-text', 'donate-loader', true);
+    try {
+      const res = await fetch('/api/donations', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      sucEl.style.display = 'block';
+      document.getElementById('input-donor-name').value = '';
+      document.getElementById('input-kg').value = '';
+      document.getElementById('input-date').valueAsDate = new Date();
+      removePhoto();
+    } catch (err) {
+      if (err.message.includes('Sesi habis')) showScreen('login');
+      showErr(errEl, err.message);
+    } finally {
+      setLoading(btn, 'donate-text', 'donate-loader', false);
+    }
+  }
+
+  async function loadListAndShow() {
+    showScreen('list');
+    const listEl = document.getElementById('donation-list');
+    const totalEl = document.getElementById('total-kg');
+    listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#aaa;">Memuat data...</div>';
+
+    try {
+      const res = await fetch('/api/donations');
+      if (res.status === 401) { showScreen('login'); return; }
+      const data = await res.json();
+      totalEl.textContent = data.total;
+
+      if (!data.donations.length) {
+        listEl.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Belum ada data donasi.</p></div>';
+        return;
+      }
+
+      listEl.innerHTML = data.donations.map(d => `
+        <div class="donation-item">
+          <div class="donation-item-top">
+            <div>
+              <div class="donor-name">${esc(d.donor_name)}</div>
+              <div class="donor-meta">${d.donation_date || '—'} · ${d.submitted_at} WIB</div>
+            </div>
+            <div class="donor-kg">${d.kg} <span>kg</span></div>
+          </div>
+          ${d.photo ? `<img class="donation-photo" src="${d.photo}" onclick="window.open('${d.photo}','_blank')" loading="lazy" onerror="this.style.display='none'">` : ''}
+        </div>
+      `).join('');
+    } catch {
+      listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#dc2626;">Gagal memuat data.</div>';
+    }
+  }
+
+  async function doLogout() {
+    await fetch('/api/logout', { method: 'POST' });
+    showScreen('splash');
+  }
+
+  function setLoading(btn, textId, loaderId, loading) {
+    btn.disabled = loading;
+    document.getElementById(textId).style.display = loading ? 'none' : 'inline';
+    document.getElementById(loaderId).style.display = loading ? 'block' : 'none';
+  }
+
+  function showErr(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // Auto-check session on load
+  (async () => {
+    try {
+      const res = await fetch('/api/me');
+      const data = await res.json();
+      if (data.loggedIn) {
+        document.getElementById('branch-name-display').textContent = data.branchName;
+        showScreen('home');
+      }
+    } catch {}
+  })();
+</script>
+</body>
+</html>
