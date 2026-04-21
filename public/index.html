@@ -53,15 +53,17 @@
       display: flex; align-items: center; justify-content: center;
       gap: 16px; margin-bottom: 20px;
     }
-    .login-logos img { height: 52px; object-fit: contain; max-width: 140px; }
+    .login-logos img { object-fit: contain; }
+    .login-logos .logo-danantara { height: 56px; width: auto; }
+    .login-logos .logo-pnm { height: 56px; width: auto; }
     .login-logos .sep { font-size: 16px; color: #aaa; font-weight: 300; }
 
     /* RE3 image */
     .login-re3-img {
-      width: 100%; border-radius: 12px; overflow: hidden;
+      width: 100%; border-radius: 16px; overflow: hidden;
       margin-bottom: 18px; background: transparent;
     }
-    .login-re3-img img { width: 100%; display: block; object-fit: contain; max-height: 260px; }
+    .login-re3-img img { width: 100%; display: block; object-fit: contain; max-height: 325px; border-radius: 16px; }
 
     /* title */
     .login-title { text-align: center; margin-bottom: 20px; }
@@ -236,9 +238,9 @@
 
       <!-- Logos -->
       <div class="login-logos">
-        <img src="assets/danantara-hires.png" alt="Danantara Indonesia">
+        <img src="assets/danantara-hires.png" alt="Danantara Indonesia" class="logo-danantara">
         <span class="sep">×</span>
-        <img src="assets/PNM_logo.svg.png" alt="PNM">
+        <img src="assets/PNM_logo.svg.png" alt="PNM" class="logo-pnm">
       </div>
 
       <!-- RE3 Image -->
