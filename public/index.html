@@ -27,43 +27,66 @@
     .screen { display: none; width: 100%; min-height: 100dvh; flex-direction: column; }
     .screen.active { display: flex; }
 
-    /* ── SPLASH ── */
-    #screen-splash { align-items: center; justify-content: flex-end; padding-bottom: 48px; }
-    .splash-bg {
-      position: absolute; inset: 0;
-      background-image: url('assets/bg.png');
-      background-size: cover; background-position: center top;
-    }
-    .splash-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 100%);
-    }
-    .splash-content { position: relative; z-index: 2; width: 100%; padding: 0 28px; }
-    .btn-login-splash {
-      width: 100%; padding: 16px;
-      background: #1a3a6b; color: white;
-      font-size: 16px; font-weight: 700;
-      border: none; border-radius: 12px; cursor: pointer;
-      letter-spacing: 1px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-    }
-    .btn-login-splash:active { background: #0f2447; }
-
     /* ── LOGIN ── */
-    #screen-login { align-items: center; justify-content: flex-start; }
-    .login-bg {
-      position: absolute; inset: 0;
-      background-image: url('assets/bg.png');
-      background-size: cover; background-position: center top; filter: brightness(0.6);
+    #screen-login {
+      align-items: center; justify-content: center;
+      padding: 24px 20px; min-height: 100dvh;
     }
+    /* cloud blobs */
+    #screen-login::before, #screen-login::after {
+      content: ''; position: fixed; border-radius: 50%;
+      background: rgba(255,255,255,0.5); filter: blur(60px); pointer-events: none; z-index: 0;
+    }
+    #screen-login::before { width: 320px; height: 180px; top: -60px; left: -60px; }
+    #screen-login::after  { width: 280px; height: 150px; top: 100px; right: -60px; }
+
     .login-card {
-      position: relative; z-index: 2;
-      width: calc(100% - 48px);
-      margin-top: auto; margin-bottom: 40px;
+      position: relative; z-index: 1;
+      width: 100%; max-width: 360px;
       background: white; border-radius: 20px;
-      padding: 28px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      padding: 28px 24px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
     }
-    .login-card h2 { font-size: 20px; color: #1a3a6b; margin-bottom: 4px; font-weight: 800; }
-    .login-card p { font-size: 13px; color: #666; margin-bottom: 20px; }
+
+    /* logos row */
+    .login-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin-bottom: 20px;
+    }
+    .login-logos img { height: 36px; object-fit: contain; }
+    .login-logos .sep { font-size: 16px; color: #aaa; font-weight: 300; }
+
+    /* RE3 image */
+    .login-re3-img {
+      width: 100%; border-radius: 12px; overflow: hidden;
+      margin-bottom: 18px; background: #e8f4fb;
+    }
+    .login-re3-img img { width: 100%; display: block; object-fit: cover; max-height: 200px; }
+
+    /* title */
+    .login-title { text-align: center; margin-bottom: 20px; }
+    .login-title h2 { font-size: 22px; font-weight: 800; color: #2a9fd4; margin-bottom: 4px; }
+    .login-title p  { font-size: 13px; color: #999; }
+
+    /* input with icon */
+    .input-icon-wrap { position: relative; }
+    .input-icon-wrap svg {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; color: #bbb; pointer-events: none;
+    }
+    .input-icon-wrap input { padding-left: 40px; }
+
+    /* login button */
+    .btn-masuk {
+      width: 100%; padding: 14px;
+      background: #2a9fd4; color: white;
+      font-size: 15px; font-weight: 700; border: none;
+      border-radius: 10px; cursor: pointer; letter-spacing: 0.5px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 0.2s, opacity 0.2s; margin-top: 4px;
+    }
+    .btn-masuk:active { background: #1e85b3; }
+    .btn-masuk:disabled { opacity: 0.6; cursor: not-allowed; }
 
     /* ── SHARED FORM STYLES ── */
     .form-group { margin-bottom: 14px; }
@@ -207,34 +230,49 @@
 <body>
 <div class="app">
 
-  <!-- SPLASH -->
-  <div class="screen active" id="screen-splash">
-    <div class="splash-bg"></div>
-    <div class="splash-overlay"></div>
-    <div class="splash-content">
-      <button class="btn-login-splash" onclick="showScreen('login')">LOGIN</button>
-    </div>
-  </div>
-
   <!-- LOGIN -->
-  <div class="screen" id="screen-login">
-    <div class="login-bg"></div>
+  <div class="screen active" id="screen-login">
     <div class="login-card">
-      <h2>Masuk ke RE3</h2>
-      <p>Masukkan username dan password yang telah diberikan.</p>
+
+      <!-- Logos -->
+      <div class="login-logos">
+        <img src="assets/logo-danantara.png" alt="Danantara Indonesia">
+        <span class="sep">×</span>
+        <img src="assets/logo-pnm.png" alt="PNM">
+      </div>
+
+      <!-- RE3 Image -->
+      <div class="login-re3-img">
+        <img src="assets/re3-center.png" alt="RE3">
+      </div>
+
+      <!-- Title -->
+      <div class="login-title">
+        <h2>Donation Tracker</h2>
+        <p>Reduce · Re-love · Restyle</p>
+      </div>
+
+      <!-- Form -->
       <div class="error-msg" id="login-error"></div>
       <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="input-username" placeholder="contoh: cabang01" autocomplete="username">
+        <label>Username <span style="color:#e53e3e">*</span></label>
+        <div class="input-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" id="input-username" placeholder="contoh: cabang01" autocomplete="username">
+        </div>
       </div>
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+        <label>Password <span style="color:#e53e3e">*</span></label>
+        <div class="input-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="input-password" placeholder="Masukkan password" autocomplete="current-password">
+        </div>
       </div>
-      <button class="btn-primary" id="btn-submit-login" onclick="doLogin()">
-        <span id="login-text">MASUK</span>
+      <button class="btn-masuk" id="btn-submit-login" onclick="doLogin()">
+        <span id="login-text">Masuk</span>
         <div class="loader" id="login-loader"></div>
       </button>
+
     </div>
   </div>
 
@@ -460,7 +498,7 @@
 
   async function doLogout() {
     await fetch('/api/logout', { method: 'POST' });
-    showScreen('splash');
+    showScreen('login');
   }
 
   function setLoading(btn, textId, loaderId, loading) {
