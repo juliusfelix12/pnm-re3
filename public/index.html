@@ -7,8 +7,11 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { height: 100%; }
+
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
       min-height: 100dvh;
       background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
       display: flex;
@@ -18,19 +21,20 @@
     .app {
       width: 100%;
       max-width: 430px;
+      min-height: 100vh;
       min-height: 100dvh;
       position: relative;
       overflow: hidden;
       background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
     }
 
-    .screen { display: none; width: 100%; min-height: 100dvh; flex-direction: column; }
+    .screen { display: none; width: 100%; min-height: 100vh; min-height: 100dvh; flex-direction: column; }
     .screen.active { display: flex; }
 
     /* ── LOGIN ── */
     #screen-login {
       align-items: center; justify-content: center;
-      padding: 24px 20px; min-height: 100dvh;
+      padding: 24px 20px; min-height: 100vh; min-height: 100dvh;
     }
     /* cloud blobs */
     #screen-login::before, #screen-login::after {
