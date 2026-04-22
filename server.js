@@ -116,6 +116,11 @@ const requireAuth = (req, res, next) => {
   next();
 };
 
+const requireAdmin = (req, res, next) => {
+  if (!req.session.isAdmin) return res.status(401).json({ error: 'Akses ditolak.' });
+  next();
+};
+
 // ── Routes ────────────────────────────────────────────────────
 
 app.post('/api/login', (req, res) => {
@@ -168,6 +173,30 @@ app.get('/api/donations', requireAuth, (req, res) => {
     .map(d => ({ ...d, submitted_at: formatWIB(d.submitted_at) }));
   const total = Math.round(donations.reduce((s, d) => s + d.kg, 0) * 100) / 100;
   res.json({ donations, total });
+});
+
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body || {};
+  const ADMIN_PASS = process.env.ADMIN_PASSWORD || 're3admin2025';
+  if (!password || password !== ADMIN_PASS) return res.status(401).json({ error: 'Password salah.' });
+  req.session.isAdmin = true;
+  res.json({ success: true });
+});
+
+app.post('/api/admin/logout', requireAdmin, (req, res) => {
+  req.session.destroy(() => res.json({ success: true }));
+});
+
+app.get('/api/admin/donations', requireAdmin, (req, res) => {
+  const data = readData();
+  const branchMap = {};
+  data.branches.forEach(b => { branchMap[b.id] = b.name; });
+  const donations = data.donations
+    .map(d => ({ ...d, branch_name: branchMap[d.branch_id] || '—', submitted_at_fmt: formatWIB(d.submitted_at) }))
+    .sort((a, b) => b.id - a.id);
+  const total = Math.round(donations.reduce((s, d) => s + d.kg, 0) * 100) / 100;
+  const branches = data.branches.map(b => ({ id: b.id, name: b.name })).sort((a, b) => a.name.localeCompare(b.name));
+  res.json({ donations, total, branches });
 });
 
 app.post('/api/admin/reset', (req, res) => {
