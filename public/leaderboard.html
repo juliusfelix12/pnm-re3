@@ -14,11 +14,10 @@
       position: relative;
     }
 
-    /* Cloud blobs */
     .cloud { position: fixed; border-radius: 50%; background: rgba(255,255,255,0.45); filter: blur(70px); pointer-events: none; z-index: 0; }
-    .cloud-1 { width: 500px; height: 240px; top: -100px; left: -80px; }
-    .cloud-2 { width: 380px; height: 180px; top: 40px; right: -60px; }
-    .cloud-3 { width: 320px; height: 150px; bottom: 60px; left: 30%; }
+    .cloud-1 { width: 600px; height: 280px; top: -100px; left: -80px; }
+    .cloud-2 { width: 450px; height: 200px; top: 40px; right: -60px; }
+    .cloud-3 { width: 360px; height: 160px; bottom: 60px; left: 30%; }
 
     .page {
       position: relative; z-index: 1;
@@ -31,55 +30,58 @@
     .header {
       background: transparent;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px;
+      padding: 16px 24px 8px;
       flex-shrink: 0;
     }
-    .header-logo {
-      display: flex; align-items: center; flex: 1;
-    }
+
+    .header-logo { display: flex; align-items: center; flex: 1; }
     .header-logo.right { justify-content: flex-end; }
-    .header-logo img { height: 40px; width: auto; object-fit: contain; max-width: 120px; }
+    .header-logo img {
+      height: clamp(48px, 10vw, 80px);
+      width: auto; object-fit: contain;
+      max-width: clamp(120px, 18vw, 200px);
+    }
 
     .header-center {
       display: flex; align-items: center; justify-content: center;
       flex: 1;
     }
     .header-center img {
-      height: 56px; width: auto; object-fit: contain; border-radius: 8px;
+      height: clamp(80px, 16vw, 200px);
+      width: auto; object-fit: contain;
     }
 
     /* ── TITLE BLOCK ── */
     .title-block {
-      padding: 6px 16px 8px;
+      padding: 4px 24px 10px;
       flex-shrink: 0;
-      text-align: center;
     }
     .title-block h1 {
-      font-size: clamp(14px, 4vw, 32px);
+      font-size: clamp(15px, 3.5vw, 32px);
       font-weight: 900; color: #1a3a6b; line-height: 1.2;
     }
     .title-block .subtitle {
-      font-size: clamp(11px, 2.8vw, 16px);
-      color: #5a7a9a; margin-top: 3px;
+      font-size: clamp(11px, 2vw, 16px);
+      color: #5a7a9a; margin-top: 2px;
     }
     .title-block .update-time {
-      font-size: clamp(10px, 2.5vw, 14px);
+      font-size: clamp(10px, 1.6vw, 14px);
       color: #8aabc8; margin-top: 2px;
     }
 
     /* ── BODY ── */
     .body {
       display: flex; flex-direction: column;
-      padding: 0 12px 20px; gap: 12px;
+      padding: 0 16px 20px; gap: 14px;
       flex: 1;
     }
 
     /* ── PODIUM ── */
     .podium-wrap {
       display: flex; justify-content: center; align-items: flex-end;
-      gap: clamp(6px, 2vw, 20px);
-      padding: 0 4px;
-      height: clamp(120px, 28vw, 200px);
+      gap: clamp(8px, 2vw, 24px);
+      padding: 0 clamp(4px, 4vw, 40px);
+      height: clamp(130px, 28vw, 220px);
     }
 
     .podium-slot { display: flex; flex-direction: column; align-items: center; }
@@ -88,123 +90,113 @@
     .podium-slot.rank-3 { flex: 0 0 28%; }
 
     .podium-card {
-      width: 100%; border-radius: 12px 12px 0 0;
-      padding: clamp(6px, 2vw, 14px) clamp(8px, 2vw, 18px);
-      background: linear-gradient(145deg, #0f2d5a 0%, #1e4d8c 60%, #2460a8 100%);
-      display: flex; align-items: center; gap: clamp(5px, 1.5vw, 14px);
-      box-shadow: 0 -4px 16px rgba(15,45,90,0.25);
+      width: 100%; border-radius: 16px 16px 0 0;
+      padding: clamp(10px, 2vw, 18px) clamp(10px, 2vw, 20px);
+      background: linear-gradient(145deg, #1a52a8 0%, #2563eb 60%, #3b82f6 100%);
+      display: flex; align-items: center; gap: clamp(8px, 2vw, 16px);
+      box-shadow: 0 -6px 24px rgba(30,70,170,0.30);
       position: relative; overflow: hidden;
     }
     .podium-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
     }
-    .podium-slot.rank-1 .podium-card { height: clamp(80px, 20vw, 160px); }
-    .podium-slot.rank-2 .podium-card { height: clamp(64px, 16vw, 128px); }
-    .podium-slot.rank-3 .podium-card { height: clamp(52px, 14vw, 112px); }
+    .podium-slot.rank-1 .podium-card { height: clamp(90px, 22vw, 180px); }
+    .podium-slot.rank-2 .podium-card { height: clamp(72px, 17vw, 138px); }
+    .podium-slot.rank-3 .podium-card { height: clamp(60px, 15vw, 120px); }
 
-    .podium-slot.rank-1 .podium-card::before { background: #f5c842; }
-    .podium-slot.rank-2 .podium-card::before { background: #9bb8d4; }
-    .podium-slot.rank-3 .podium-card::before { background: #c87941; }
+    .podium-slot.rank-1 .podium-card::before { background: linear-gradient(90deg, #f5c842, #fde68a, #f5c842); }
+    .podium-slot.rank-2 .podium-card::before { background: linear-gradient(90deg, #9bb8d4, #cbd5e1, #9bb8d4); }
+    .podium-slot.rank-3 .podium-card::before { background: linear-gradient(90deg, #c87941, #d97706, #c87941); }
 
     .podium-medal-wrap {
-      width: clamp(24px, 6vw, 52px); height: clamp(24px, 6vw, 52px);
-      border-radius: 50%; flex-shrink: 0;
+      flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: clamp(13px, 3.5vw, 30px);
+      font-size: clamp(28px, 7vw, 64px);
+      width: clamp(36px, 8vw, 72px);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
-    .podium-slot.rank-1 .podium-medal-wrap { background: rgba(245,200,66,0.2); }
-    .podium-slot.rank-2 .podium-medal-wrap { background: rgba(155,184,212,0.2); }
-    .podium-slot.rank-3 .podium-medal-wrap { background: rgba(200,121,65,0.2); }
 
     .podium-info { flex: 1; min-width: 0; }
     .podium-name {
-      font-size: clamp(8px, 2.2vw, 15px);
+      font-size: clamp(8px, 2vw, 16px);
       font-weight: 800; color: white;
-      text-transform: uppercase; letter-spacing: 0.3px;
+      text-transform: uppercase; letter-spacing: 0.5px;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      opacity: 0.9;
     }
-    .podium-slot.rank-1 .podium-name { font-size: clamp(9px, 2.6vw, 18px); }
-    .podium-kg-row { display: flex; align-items: baseline; gap: 3px; margin-top: 2px; }
+    .podium-slot.rank-1 .podium-name { font-size: clamp(10px, 2.4vw, 20px); opacity: 1; }
+    .podium-kg-row { display: flex; align-items: baseline; gap: 4px; margin-top: 4px; }
     .podium-kg {
-      font-size: clamp(13px, 4vw, 36px);
+      font-size: clamp(16px, 5vw, 44px);
       font-weight: 900; color: white; line-height: 1;
     }
-    .podium-slot.rank-1 .podium-kg { font-size: clamp(15px, 5vw, 44px); }
-    .podium-kg-unit { font-size: clamp(8px, 1.8vw, 14px); color: rgba(255,255,255,0.6); font-weight: 500; }
+    .podium-slot.rank-1 .podium-kg { font-size: clamp(20px, 6vw, 52px); }
+    .podium-kg-unit { font-size: clamp(9px, 1.8vw, 16px); color: rgba(255,255,255,0.65); font-weight: 600; }
 
     .podium-base { width: 100%; height: 10px; border-radius: 0 0 6px 6px; }
-    .podium-slot.rank-1 .podium-base { background: #0a1f3d; }
-    .podium-slot.rank-2 .podium-base { background: #7a9ab8; }
-    .podium-slot.rank-3 .podium-base { background: #a0622a; }
+    .podium-slot.rank-1 .podium-base { background: #1240a0; }
+    .podium-slot.rank-2 .podium-base { background: #1240a0; }
+    .podium-slot.rank-3 .podium-base { background: #1240a0; }
 
     .podium-empty {
-      width: 100%; border-radius: 12px 12px 0 0;
-      background: rgba(255,255,255,0.25);
+      width: 100%; border-radius: 16px 16px 0 0;
+      background: rgba(255,255,255,0.20);
       display: flex; align-items: center; justify-content: center;
       color: rgba(255,255,255,0.5); font-size: 13px;
     }
 
-    /* ── RANK TABLE – mobile: single column, scroll whole page ── */
+    /* ── RANK TABLE – mobile: single column ── */
     .rank-table-wrap {
       display: flex; flex-direction: column; gap: 6px;
     }
 
     .rank-row {
-      background: white; border-radius: 10px;
-      padding: 9px 12px;
-      display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.70);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 10px;
+      padding: 9px 14px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
     .rank-num {
-      width: 28px; height: 28px; flex-shrink: 0;
-      background: #eef3f9; border-radius: 7px;
+      width: 30px; height: 30px; flex-shrink: 0;
+      background: rgba(30,70,170,0.12); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; color: #4a6a8a;
+      font-size: 12px; font-weight: 800; color: #1a52a8;
     }
     .rank-name {
       flex: 1; font-size: clamp(12px, 3vw, 14px);
-      font-weight: 600; color: #1a3a6b;
+      font-weight: 700; color: #1a3a6b;
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .rank-kg {
       font-size: clamp(13px, 3.2vw, 15px);
-      font-weight: 800; color: #1a3a6b; white-space: nowrap;
+      font-weight: 800; color: #1a52a8; white-space: nowrap;
     }
-    .rank-kg span { font-size: 10px; font-weight: 500; color: #aaa; }
+    .rank-kg span { font-size: 10px; font-weight: 500; color: #7a9ab8; }
 
     /* ── TV / DESKTOP (≥ 900px) ── */
     @media (min-width: 900px) {
       body { height: 100vh; overflow: hidden; }
-
       .page { height: 100vh; }
 
-      .header { padding: 12px 40px; height: 90px; }
-      .header-logo img { height: clamp(44px, 4vw, 68px); max-width: 200px; }
-      .header-center img { height: clamp(56px, 5vw, 80px); }
+      .header { padding: 20px 48px 8px; }
+      .header-logo img { height: clamp(64px, 6.5vw, 104px); max-width: 240px; }
+      .header-center img { height: clamp(120px, 14vw, 220px); }
 
-      .title-block { padding: 14px 40px 6px; text-align: left; }
+      .title-block { padding: 6px 48px 10px; }
 
-      .body {
-        flex: 1; min-height: 0;
-        padding: 0 40px 20px; gap: 16px;
-        overflow: hidden;
-      }
+      .body { flex: 1; min-height: 0; padding: 0 48px 24px; gap: 16px; overflow: hidden; }
 
       .podium-wrap {
         flex-shrink: 0;
-        height: clamp(170px, 22vh, 240px);
-        padding: 0 60px;
+        height: clamp(180px, 24vh, 260px);
+        padding: 0 80px;
       }
-
-      .podium-slot.rank-1 .podium-card { height: clamp(100px, 14vh, 160px); }
-      .podium-slot.rank-2 .podium-card { height: clamp(84px, 11vh, 128px); }
-      .podium-slot.rank-3 .podium-card { height: clamp(72px, 9.5vh, 112px); }
-
-      .podium-name { font-size: clamp(11px, 1.1vw, 16px); }
-      .podium-slot.rank-1 .podium-name { font-size: clamp(13px, 1.4vw, 20px); }
-      .podium-kg { font-size: clamp(18px, 2.4vw, 36px); }
-      .podium-slot.rank-1 .podium-kg { font-size: clamp(22px, 3vw, 44px); }
-      .podium-medal-wrap { width: clamp(38px, 4vw, 56px); height: clamp(38px, 4vw, 56px); font-size: clamp(20px, 2.4vw, 32px); }
+      .podium-slot.rank-1 .podium-card { height: clamp(110px, 16vh, 190px); }
+      .podium-slot.rank-2 .podium-card { height: clamp(88px, 13vh, 150px); }
+      .podium-slot.rank-3 .podium-card { height: clamp(72px, 11vh, 128px); }
 
       .rank-table-wrap {
         flex: 1; min-height: 0;
@@ -218,9 +210,6 @@
       .rank-table-wrap::-webkit-scrollbar { width: 4px; }
       .rank-table-wrap::-webkit-scrollbar-track { background: transparent; }
       .rank-table-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
-
-      .rank-name { font-size: clamp(11px, 0.9vw, 13px); }
-      .rank-kg { font-size: clamp(12px, 1vw, 15px); }
     }
   </style>
 </head>
@@ -230,7 +219,6 @@
   <div class="cloud cloud-3"></div>
 
   <div class="page">
-    <!-- HEADER -->
     <div class="header">
       <div class="header-logo">
         <img src="assets/danantara-hires.png" alt="Danantara Indonesia">
@@ -243,14 +231,12 @@
       </div>
     </div>
 
-    <!-- TITLE -->
     <div class="title-block">
       <h1>Data Urutan Penyumbang Sementara</h1>
       <div class="subtitle">Berdasarkan berat barang (Kg)</div>
       <div class="update-time" id="update-time">Terakhir update pada —</div>
     </div>
 
-    <!-- BODY -->
     <div class="body">
       <div class="podium-wrap" id="podium"></div>
       <div class="rank-table-wrap" id="rank-table"></div>
