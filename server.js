@@ -58,15 +58,27 @@ const BRANCHES = [
   ['Banyuwangi',      'cabang43'], ['Mataram',         'cabang44'],
   ['Kupang',          'cabang45'], ['Ambon',           'cabang46'],
   ['Jayapura',        'cabang47'], ['Ternate',         'cabang48'],
-  ['Gorontalo',       'cabang49'],
+  ['Gorontalo',       'cabang49'], ['Sorong',          'cabang50'],
+  ['Manokwari',       'cabang51'], ['Palu',            'cabang52'],
+  ['Kendari',         'cabang53'], ['Mamuju',          'cabang54'],
+  ['Tarakan',         'cabang55'], ['Singkawang',      'cabang56'],
+  ['Tanjungpinang',   'cabang57'], ['Pangkalpinang',   'cabang58'],
+  ['Palangkaraya',    'cabang59'],
 ];
 
 (function initData() {
   const data = readData();
+  const allBranches = BRANCHES.map(([name, username], i) => ({ id: i + 1, name, username, password: 're3pnm2025' }));
   if (data.branches.length === 0) {
-    data.branches = BRANCHES.map(([name, username], i) => ({ id: i + 1, name, username, password: 're3pnm2025' }));
+    data.branches = allBranches;
     writeData(data);
-    console.log('Data awal 49 cabang dibuat.');
+    console.log('Data awal 59 cabang dibuat.');
+  } else if (data.branches.length < BRANCHES.length) {
+    const existingIds = new Set(data.branches.map(b => b.id));
+    const newBranches = allBranches.filter(b => !existingIds.has(b.id));
+    data.branches = [...data.branches, ...newBranches];
+    writeData(data);
+    console.log(`Ditambahkan ${newBranches.length} cabang baru.`);
   }
 })();
 
