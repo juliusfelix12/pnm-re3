@@ -50,6 +50,7 @@
       height: clamp(80px, 16vw, 200px);
       width: auto; object-fit: contain;
       transform: scale(2);
+      transform-origin: top center;
     }
 
     /* ── TITLE BLOCK ── */
@@ -200,7 +201,7 @@
       /* Compact header — logos moderate size like vendor */
       .header { padding: 10px 40px 6px; }
       .header-logo img { height: 52px; max-width: 160px; }
-      .header-center img { height: 72px; transform: scale(2); }
+      .header-center img { height: 72px; transform: scale(2); transform-origin: top center; }
 
       .title-block { padding: 2px 40px 6px; }
       .title-block h1 { font-size: clamp(16px, 1.6vw, 26px); }
