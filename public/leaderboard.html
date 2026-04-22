@@ -176,40 +176,48 @@
     }
     .rank-kg span { font-size: 10px; font-weight: 500; color: #7a9ab8; }
 
-    /* ── TV / DESKTOP (≥ 900px) ── */
+    /* ── TV / DESKTOP (≥ 900px): no scroll, everything fits ── */
     @media (min-width: 900px) {
       body { height: 100vh; overflow: hidden; }
-      .page { height: 100vh; }
+      .page { height: 100vh; overflow: hidden; }
 
-      .header { padding: 20px 48px 8px; }
-      .header-logo img { height: clamp(64px, 6.5vw, 104px); max-width: 240px; }
-      .header-center img { height: clamp(120px, 14vw, 220px); }
+      /* Compact header — logos moderate size like vendor */
+      .header { padding: 10px 40px 6px; }
+      .header-logo img { height: 52px; max-width: 160px; }
+      .header-center img { height: 72px; }
 
-      .title-block { padding: 6px 48px 10px; }
+      .title-block { padding: 2px 40px 6px; }
+      .title-block h1 { font-size: clamp(16px, 1.6vw, 26px); }
+      .title-block .subtitle { font-size: 13px; margin-top: 1px; }
+      .title-block .update-time { font-size: 11px; margin-top: 1px; }
 
-      .body { flex: 1; min-height: 0; padding: 0 48px 24px; gap: 16px; overflow: hidden; }
+      .body { flex: 1; min-height: 0; padding: 0 40px 12px; gap: 10px; overflow: hidden; }
 
       .podium-wrap {
         flex-shrink: 0;
-        height: clamp(180px, 24vh, 260px);
-        padding: 0 80px;
+        height: clamp(140px, 20vh, 220px);
+        padding: 0 60px;
+        gap: 16px;
       }
-      .podium-slot.rank-1 .podium-card { height: clamp(110px, 16vh, 190px); }
-      .podium-slot.rank-2 .podium-card { height: clamp(88px, 13vh, 150px); }
-      .podium-slot.rank-3 .podium-card { height: clamp(72px, 11vh, 128px); }
+      .podium-slot.rank-1 .podium-card { height: clamp(88px, 13.5vh, 162px); }
+      .podium-slot.rank-2 .podium-card { height: clamp(70px, 10.5vh, 126px); }
+      .podium-slot.rank-3 .podium-card { height: clamp(58px, 9vh, 108px); }
 
+      /* Rank table fills remaining space, NO scroll on TV */
       .rank-table-wrap {
         flex: 1; min-height: 0;
         display: grid;
-        grid-template-rows: repeat(12, auto);
+        grid-template-rows: repeat(12, 1fr);
         grid-auto-flow: column;
         grid-auto-columns: 1fr;
-        gap: 7px;
-        overflow-y: auto;
+        gap: 5px;
+        overflow: hidden;
       }
-      .rank-table-wrap::-webkit-scrollbar { width: 4px; }
-      .rank-table-wrap::-webkit-scrollbar-track { background: transparent; }
-      .rank-table-wrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+
+      .rank-row { padding: 0 12px; border-radius: 8px; }
+      .rank-num { width: 26px; height: 26px; font-size: 11px; border-radius: 6px; }
+      .rank-name { font-size: clamp(10px, 0.85vw, 13px); }
+      .rank-kg { font-size: clamp(11px, 0.9vw, 14px); }
     }
   </style>
 </head>
