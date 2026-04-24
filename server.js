@@ -219,6 +219,32 @@ app.post('/api/admin/reset', (req, res) => {
   res.json({ success: true, deleted: count });
 });
 
+app.get('/api/admin/export', requireAdmin, (req, res) => {
+  const data = readData();
+  const branchMap = {};
+  data.branches.forEach(b => { branchMap[b.id] = b.name; });
+
+  const branchId = parseInt(req.query.branch_id) || null;
+  let donations = data.donations
+    .map(d => ({ ...d, branch_name: branchMap[d.branch_id] || '—', submitted_at_fmt: formatWIB(d.submitted_at) }))
+    .sort((a, b) => b.id - a.id);
+  if (branchId) donations = donations.filter(d => d.branch_id === branchId);
+
+  const branchName = branchId ? (branchMap[branchId] || 'cabang') : 'semua-cabang';
+  const filename = `RE3_export_${branchName.replace(/\s+/g, '_')}.csv`;
+
+  const rows = [['No', 'Cabang', 'Tanggal Donasi', 'Berat (KG)', 'Waktu Input (WIB)']];
+  donations.forEach((d, i) => {
+    rows.push([i + 1, d.branch_name, d.donation_date || '—', d.kg, d.submitted_at_fmt]);
+  });
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+  res.send('\uFEFF' + csv); // BOM for Excel UTF-8 compatibility
+});
+
 app.get('/api/health', (req, res) => {
   const data = readData();
   res.json({

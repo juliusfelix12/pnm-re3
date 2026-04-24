@@ -160,6 +160,14 @@
       transition: background 0.15s, border-color 0.15s;
     }
     .btn-sort:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+    .btn-export {
+      padding: 9px 16px; border: 1.5px solid #bbf7d0; border-radius: 10px;
+      font-size: 13px; font-weight: 600; background: #f0fdf4;
+      color: #15803d; cursor: pointer; font-family: inherit; white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-export:hover { background: #dcfce7; border-color: #86efac; }
     .filter-badge {
       background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 700;
       padding: 5px 12px; border-radius: 20px; white-space: nowrap;
@@ -326,6 +334,7 @@
           <span id="sort-icon">↓</span> <span id="sort-label">Terbaru</span>
         </button>
         <span class="filter-badge" id="filter-count"></span>
+        <button class="btn-export" onclick="downloadCSV()">⬇ Download CSV</button>
       </div>
 
       <!-- List -->
@@ -461,6 +470,13 @@
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('active');
     document.getElementById('lightbox-img').src = '';
+  }
+
+  function downloadCSV() {
+    const branchId = document.getElementById('filter-branch').value;
+    const url = '/api/admin/export' + (branchId ? `?branch_id=${branchId}` : '');
+    const a = document.createElement('a');
+    a.href = url; a.download = ''; a.click();
   }
 
   function esc(s) {
