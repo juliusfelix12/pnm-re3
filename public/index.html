@@ -158,7 +158,19 @@
     .btn-home.list .icon  { background: #e8f0fb; }
     .btn-home .btn-text { text-align: left; }
     .btn-home .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
-    .logout-btn { margin-top: auto; padding: 12px; background: transparent; border: none; color: #888; font-size: 13px; cursor: pointer; text-decoration: underline; }
+    .logout-btn {
+      padding: 7px 14px; background: #f8fafc; border: 1.5px solid #e0e7ef;
+      border-radius: 8px; color: #555; font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .logout-btn:active { background: #e8f0fb; }
+    .btn-hapus {
+      padding: 5px 12px; background: #fff0f0; border: 1.5px solid #fecaca;
+      border-radius: 7px; color: #dc2626; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit; flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .btn-hapus:active { background: #fee2e2; }
 
     /* ── INPUT FORM ── */
     #screen-input { align-items: stretch; }
@@ -223,12 +235,7 @@
     .donation-item .donor-kg { font-size: 18px; font-weight: 800; color: #1a3a6b; white-space: nowrap; }
     .donation-item .donor-kg span { font-size: 12px; font-weight: 500; color: #888; }
     .donation-photo { width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover; cursor: pointer; }
-    .btn-delete {
-      background: none; border: none; color: #ccc; font-size: 16px;
-      cursor: pointer; padding: 2px 4px; line-height: 1; flex-shrink: 0;
-      transition: color 0.15s;
-    }
-    .btn-delete:hover { color: #dc2626; }
+
     .empty-state { text-align: center; padding: 48px 20px; color: #aaa; }
     .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
     .empty-state p { font-size: 14px; }
@@ -296,6 +303,7 @@
     <div class="header">
       <img src="assets/danantara_final.png" alt="Danantara">
       <img src="assets/PNM_logo.svg.png" alt="PNM">
+      <button class="logout-btn" onclick="doLogout()">↩ Keluar</button>
     </div>
     <div class="home-body">
       <div class="branch-badge">
@@ -312,7 +320,6 @@
           <div class="btn-text">List Data<span>Lihat semua donasi cabang ini</span></div>
         </button>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Keluar</button>
     </div>
   </div>
 
@@ -493,7 +500,7 @@
             <div class="donor-meta">${d.donation_date || '—'} · ${d.submitted_at} WIB</div>
             <div style="display:flex;align-items:center;gap:8px;">
               <div class="donor-kg">${d.kg} <span>kg</span></div>
-              <button class="btn-delete" onclick="deleteEntry(${d.id})" title="Hapus">🗑</button>
+              <button class="btn-hapus" onclick="deleteEntry(${d.id})">Hapus</button>
             </div>
           </div>
           ${d.photo ? `<img class="donation-photo" src="${d.photo}" onclick="window.open('${d.photo}','_blank')" loading="lazy" onerror="this.style.display='none'">` : ''}
