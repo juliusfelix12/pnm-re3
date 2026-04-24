@@ -144,10 +144,9 @@ app.get('/api/me', (req, res) => {
 });
 
 app.post('/api/donations', requireAuth, upload.single('photo'), (req, res) => {
-  const { donor_name, kg, donation_date } = req.body || {};
+  const { kg, donation_date } = req.body || {};
   const parsedKg = parseFloat(kg);
 
-  if (!donor_name || !donor_name.trim()) return res.status(400).json({ error: 'Nama penyumbang harus diisi.' });
   if (isNaN(parsedKg) || parsedKg <= 0) return res.status(400).json({ error: 'Berat harus lebih dari 0 kg.' });
   if (!donation_date) return res.status(400).json({ error: 'Tanggal donasi harus diisi.' });
 
@@ -155,7 +154,6 @@ app.post('/api/donations', requireAuth, upload.single('photo'), (req, res) => {
   data.donations.push({
     id: Date.now(),
     branch_id: req.session.branchId,
-    donor_name: donor_name.trim(),
     kg: parsedKg,
     donation_date,
     photo: req.file ? `/uploads/${req.file.filename}` : null,

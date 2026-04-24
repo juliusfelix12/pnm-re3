@@ -315,8 +315,6 @@
         <select class="filter-select" id="filter-branch" onchange="applyFilter()">
           <option value="">Semua Cabang</option>
         </select>
-        <input class="filter-input" type="text" id="filter-name"
-               placeholder="🔍  Cari nama penyumbang…" oninput="applyFilter()">
         <span class="filter-badge" id="filter-count"></span>
       </div>
 
@@ -397,10 +395,8 @@
 
   function applyFilter() {
     const branchId = parseInt(document.getElementById('filter-branch').value) || null;
-    const nameQ = document.getElementById('filter-name').value.toLowerCase().trim();
     let filtered = allDonations;
     if (branchId) filtered = filtered.filter(d => d.branch_id === branchId);
-    if (nameQ)    filtered = filtered.filter(d => d.donor_name.toLowerCase().includes(nameQ));
 
     const total = Math.round(filtered.reduce((s,d) => s + d.kg, 0) * 100) / 100;
     document.getElementById('filter-count').textContent =
@@ -422,7 +418,6 @@
         <div class="dcard-body">
           <span class="branch-tag">${esc(d.branch_name)}</span>
           <div class="dcard-info">
-            <div class="dcard-donor">${esc(d.donor_name)}</div>
             <div class="dcard-meta">${d.donation_date || '—'} &nbsp;·&nbsp; Input: ${d.submitted_at_fmt} WIB</div>
           </div>
           <div class="dcard-kg">${d.kg} <span>kg</span></div>
