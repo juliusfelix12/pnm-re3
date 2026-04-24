@@ -14,6 +14,7 @@
       min-height: 100vh;
       min-height: 100dvh;
       background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
+      background-attachment: fixed;
       display: flex;
       justify-content: center;
     }
@@ -25,7 +26,7 @@
       min-height: 100dvh;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(175deg, #a8d8f0 0%, #c8eaf8 40%, #e8f6ff 100%);
+      background: transparent;
     }
 
     .screen { display: none; width: 100%; min-height: 100vh; min-height: 100dvh; flex-direction: column; }
@@ -217,7 +218,7 @@
     }
 
     /* ── LIST DATA ── */
-    #screen-list { align-items: stretch; background: #c8eaf8; }
+    #screen-list { align-items: stretch; }
     .total-bar {
       background: #1a3a6b; color: white; padding: 14px 20px;
       display: flex; justify-content: space-between; align-items: center;
