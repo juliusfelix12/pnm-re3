@@ -402,7 +402,7 @@
     document.getElementById('filter-count').textContent =
       filtered.length + ' data · ' + total + ' kg';
     document.getElementById('list-label').textContent =
-      branchId || nameQ ? 'Hasil Filter' : 'Semua Donasi — Terbaru';
+      branchId ? 'Hasil Filter' : 'Semua Donasi — Terbaru';
 
     renderList(filtered);
   }
