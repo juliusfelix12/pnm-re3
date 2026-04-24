@@ -4,3 +4,4 @@ database.db
 brand_assets/
 public/uploads/
 data.json
+sessions/

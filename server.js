@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -104,10 +105,14 @@ const upload = multer({
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+const SESSIONS_DIR = path.join(DATA_DIR, 'sessions');
+if (!fs.existsSync(SESSIONS_DIR)) fs.mkdirSync(SESSIONS_DIR, { recursive: true });
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'pnm-re3-secret-2025',
   resave: false,
   saveUninitialized: false,
+  store: new FileStore({ path: SESSIONS_DIR, ttl: 86400, reapInterval: 3600, logFn: () => {} }),
   cookie: { maxAge: 24 * 60 * 60 * 1000, secure: false, sameSite: 'lax' }
 }));
 
@@ -207,7 +212,7 @@ app.get('/api/admin/donations', requireAdmin, (req, res) => {
   res.json({ donations, total, branches });
 });
 
-app.post('/api/admin/reset', (req, res) => {
+app.post('/api/admin/reset', requireAdmin, (req, res) => {
   const { secret } = req.body || {};
   if (secret !== (process.env.ADMIN_SECRET || 're3admin2025')) {
     return res.status(403).json({ error: 'Akses ditolak.' });
