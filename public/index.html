@@ -159,9 +159,9 @@
     .btn-home .btn-text { text-align: left; }
     .btn-home .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
     .logout-btn {
-      padding: 7px 14px; background: #f8fafc; border: 1.5px solid #e0e7ef;
-      border-radius: 8px; color: #555; font-size: 13px; font-weight: 600;
-      cursor: pointer; font-family: inherit;
+      margin-top: auto; padding: 7px 14px; background: #f8fafc;
+      border: 1.5px solid #e0e7ef; border-radius: 8px; color: #555;
+      font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
     }
     .logout-btn:active { background: #e8f0fb; }
     .btn-hapus {
@@ -303,7 +303,6 @@
     <div class="header">
       <img src="assets/danantara_final.png" alt="Danantara">
       <img src="assets/PNM_logo.svg.png" alt="PNM">
-      <button class="logout-btn" onclick="doLogout()">↩ Keluar</button>
     </div>
     <div class="home-body">
       <div class="branch-badge">
@@ -320,6 +319,7 @@
           <div class="btn-text">List Data<span>Lihat semua donasi cabang ini</span></div>
         </button>
       </div>
+      <button class="logout-btn" onclick="doLogout()">↩ Keluar</button>
     </div>
   </div>
 
@@ -498,12 +498,12 @@
         <div class="donation-item" id="item-${d.id}">
           <div class="donation-item-top">
             <div class="donor-meta">${d.donation_date || '—'} · ${d.submitted_at} WIB</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="donor-kg">${d.kg} <span>kg</span></div>
-              <button class="btn-hapus" onclick="deleteEntry(${d.id})">Hapus</button>
-            </div>
+            <div class="donor-kg">${d.kg} <span>kg</span></div>
           </div>
           ${d.photo ? `<img class="donation-photo" src="${d.photo}" onclick="window.open('${d.photo}','_blank')" loading="lazy" onerror="this.style.display='none'">` : ''}
+          <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+            <button class="btn-hapus" onclick="deleteEntry(${d.id})">Hapus</button>
+          </div>
         </div>
       `).join('');
     } catch {
