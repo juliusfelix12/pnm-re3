@@ -223,6 +223,12 @@
     .donation-item .donor-kg { font-size: 18px; font-weight: 800; color: #1a3a6b; white-space: nowrap; }
     .donation-item .donor-kg span { font-size: 12px; font-weight: 500; color: #888; }
     .donation-photo { width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover; cursor: pointer; }
+    .btn-delete {
+      background: none; border: none; color: #ccc; font-size: 16px;
+      cursor: pointer; padding: 2px 4px; line-height: 1; flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .btn-delete:hover { color: #dc2626; }
     .empty-state { text-align: center; padding: 48px 20px; color: #aaa; }
     .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
     .empty-state p { font-size: 14px; }
@@ -482,16 +488,33 @@
       }
 
       listEl.innerHTML = data.donations.map(d => `
-        <div class="donation-item">
+        <div class="donation-item" id="item-${d.id}">
           <div class="donation-item-top">
             <div class="donor-meta">${d.donation_date || '—'} · ${d.submitted_at} WIB</div>
-            <div class="donor-kg">${d.kg} <span>kg</span></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="donor-kg">${d.kg} <span>kg</span></div>
+              <button class="btn-delete" onclick="deleteEntry(${d.id})" title="Hapus">🗑</button>
+            </div>
           </div>
           ${d.photo ? `<img class="donation-photo" src="${d.photo}" onclick="window.open('${d.photo}','_blank')" loading="lazy" onerror="this.style.display='none'">` : ''}
         </div>
       `).join('');
     } catch {
       listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#dc2626;">Gagal memuat data.</div>';
+    }
+  }
+
+  async function deleteEntry(id) {
+    if (!confirm('Hapus data ini?')) return;
+    try {
+      const res = await fetch(`/api/donations/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      const el = document.getElementById('item-' + id);
+      if (el) el.remove();
+      // refresh total
+      loadListAndShow();
+    } catch {
+      alert('Gagal menghapus data.');
     }
   }
 

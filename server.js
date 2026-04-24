@@ -173,6 +173,16 @@ app.get('/api/donations', requireAuth, (req, res) => {
   res.json({ donations, total });
 });
 
+app.delete('/api/donations/:id', requireAuth, (req, res) => {
+  const id = parseInt(req.params.id);
+  const data = readData();
+  const idx = data.donations.findIndex(d => d.id === id && d.branch_id === req.session.branchId);
+  if (idx === -1) return res.status(404).json({ error: 'Data tidak ditemukan.' });
+  data.donations.splice(idx, 1);
+  writeData(data);
+  res.json({ success: true });
+});
+
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body || {};
   const ADMIN_PASS = process.env.ADMIN_PASSWORD || 're3admin2025';
